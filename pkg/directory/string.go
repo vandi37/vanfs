@@ -3,7 +3,7 @@ package directory
 import "strings"
 
 func (d *Directory) String() string {
-	return ".\n" + d.string("", true)
+	return d.name + ".\n" + d.string("", true)
 }
 
 func (d *Directory) string(prefix string, isLast bool) string {

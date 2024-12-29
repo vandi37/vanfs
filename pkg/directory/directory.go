@@ -12,6 +12,7 @@ const (
 	DirectoryExists        = "directory exists"
 	DirectoryDoesNotExists = "directory does not exists"
 	FileExists             = "file exists"
+	FileDoesNotExists      = "file does not exists"
 )
 
 type Directory struct {
@@ -23,6 +24,10 @@ type Directory struct {
 }
 
 func (d *Directory) OpenDir(path string) (*Directory, error) {
+	return d.openDir(path, false)
+}
+
+func (d *Directory) OpenDirOrCreate(path string) (*Directory, error) {
 	return d.openDir(path, true)
 }
 
@@ -31,23 +36,32 @@ func (d *Directory) openDir(path string, autoCreate bool) (*Directory, error) {
 		return nil, vanerrors.NewSimple(EmptyPath)
 	}
 
-	if path[0] == '/' {
-		return d.root.openDir(path[:1], autoCreate)
+	if path[len(path)-1] == '/' && path != "/" {
+		path = path[1:]
 	}
 
+	if path == "/" {
+		return d.root, nil
+	}
+
+	if path[0] == '/' {
+		return d.root.openDir(path[1:], autoCreate)
+	}
 	paths := strings.Split(path, "/")
 
 	currentDir := d
 	for _, p := range paths {
 		if p == ".." {
-			currentDir = currentDir.last
+			if currentDir != currentDir.last {
+				currentDir = currentDir.last
+			}
 			continue
 		}
 
 		dir, ok := currentDir.dirs[p]
 		if !autoCreate && (!ok || dir == nil) {
 			return nil, vanerrors.NewSimple(DirectoryDoesNotExists, p)
-		} else if autoCreate && (!ok || dir == nil) {
+		} else if !ok || dir == nil {
 			currentDir.dirs[p] = &Directory{
 				dirs:  map[string]*Directory{},
 				files: map[string]*files.File{},
@@ -66,15 +80,20 @@ func (d *Directory) addDir(path string, errorIfExist bool) error {
 	if len(path) < 1 {
 		return vanerrors.NewSimple(EmptyPath)
 	}
+
+	if path[len(path)-1] == '/' && path != "/" {
+		path = path[1:]
+	}
+
 	if path[0] == '/' {
-		return d.root.addDir(path[:1], errorIfExist)
+		return d.root.addDir(path[1:], errorIfExist)
 	}
 	paths := strings.Split(path, "/")
 
 	currentDir := d
 	if len(paths) > 1 {
 		var err error
-		currentDir, err = d.openDir(strings.Join(paths[1:], "/"), true)
+		currentDir, err = d.OpenDirOrCreate(strings.Join(paths[:len(paths)-1], "/"))
 		if err != nil {
 			return err
 		}
@@ -89,6 +108,7 @@ func (d *Directory) addDir(path string, errorIfExist bool) error {
 			files: map[string]*files.File{},
 			last:  d,
 			root:  d.root,
+			name:  paths[len(paths)-1],
 		}
 	}
 	return nil
@@ -100,48 +120,6 @@ func (d *Directory) AddDir(path string) error {
 
 func (d *Directory) AddDirIfNotExists(path string) error {
 	return d.addDir(path, false)
-}
-
-func (d *Directory) addFile(path string, errorIfExist bool) error {
-	if len(path) < 1 {
-		return vanerrors.NewSimple(EmptyPath)
-	}
-	if path[0] == '/' {
-		return d.root.addFile(path[:1], errorIfExist)
-	}
-
-	paths := strings.Split(path, "/")
-
-	var last = len(paths) - 1
-
-	currentDir := d
-	if len(paths) > 1 {
-		var err error
-		currentDir, err = d.openDir(strings.Join(paths[:last], "/"), true)
-		if err != nil {
-			return err
-		}
-	}
-
-	f, ok := currentDir.files[paths[last]]
-	if errorIfExist && ok && f != nil {
-		return vanerrors.NewSimple(FileExists, paths[last])
-	} else if !ok || f == nil {
-		file, err := files.New(paths[last])
-		if err != nil {
-			return err
-		}
-		currentDir.files[paths[last]] = file
-	}
-	return nil
-}
-
-func (d *Directory) AddFile(path string) error {
-	return d.addFile(path, true)
-}
-
-func (d *Directory) AddFileIfNotExists(path string) error {
-	return d.addFile(path, false)
 }
 
 func (d *Directory) IsEmpty() bool {
@@ -180,29 +158,33 @@ func (d *Directory) selfRemove() error {
 
 func (d *Directory) removeDir(path string, errorIfNotExist bool) error {
 	if len(path) < 1 {
-		if d == d.root {
-			return d.selfRemove()
-		}
-		d.last.removeDir(d.name, errorIfNotExist)
+		return d.selfRemove()
 	}
+
+	if path[len(path)-1] == '/' && path != "/" {
+		path = path[1:]
+	}
+
 	if path[0] == '/' {
-		return d.root.removeDir(path[:1], errorIfNotExist)
+		return d.root.addDir(path[1:], errorIfNotExist)
 	}
 	paths := strings.Split(path, "/")
 
 	currentDir := d
 	if len(paths) > 1 {
 		var err error
-		currentDir, err = d.openDir(strings.Join(paths[1:], "/"), false)
-		if err != nil {
+		currentDir, err = d.OpenDirOrCreate(strings.Join(paths[:len(paths)-1], "/"))
+		if err != nil && errorIfNotExist {
 			return err
+		} else if err != nil {
+			return nil
 		}
 	}
 
 	dir, ok := currentDir.dirs[paths[len(paths)-1]]
-	if errorIfNotExist && ok && dir != nil {
+	if errorIfNotExist && (!ok || dir == nil) {
 		return vanerrors.NewSimple(DirectoryDoesNotExists, paths[len(paths)-1])
-	} else if !ok || dir == nil {
+	} else if ok {
 		currentDir.selfRemove()
 		delete(currentDir.dirs, paths[len(paths)-1])
 	}
@@ -215,4 +197,27 @@ func (d *Directory) RemoveDir(path string) error {
 
 func (d *Directory) RemoveDirIfExists(path string) error {
 	return d.removeDir(path, false)
+}
+
+func (d *Directory) GetPath() string {
+	var res string
+	currentDir := d
+	for currentDir != d.root {
+		res = currentDir.name + "/" + res
+		currentDir = currentDir.last
+	}
+	res = "/" + res
+	return res
+}
+
+func (d *Directory) List() []string {
+	var res = []string{}
+
+	for n := range d.files {
+		res = append(res, n)
+	}
+	for n := range d.dirs {
+		res = append(res, n)
+	}
+	return res
 }

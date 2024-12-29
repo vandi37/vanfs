@@ -18,10 +18,10 @@ type File struct {
 	path string
 }
 
-func New(name string) (*File, error) {
+func Create(name string) (*File, error) {
 	uniqueName := uuid.New().String() + "_" + time.Now().Format("2006.01.02_15.04.05") + "_" + name + ".vfs"
 
-	file, err := os.Create(uniqueName)
+	file, err := os.OpenFile(uniqueName, os.O_CREATE, 0666)
 	if err != nil {
 		return nil, vanerrors.NewWrap(ErrorCreatingFile, err, vanerrors.EmptyHandler)
 	}
@@ -41,7 +41,7 @@ func (f *File) Remove() error {
 }
 
 func (f *File) Open() (*os.File, error) {
-	file, err := os.Open(f.path)
+	file, err := os.OpenFile(f.path, os.O_RDWR, 0666)
 	if err != nil {
 		return nil, vanerrors.NewWrap(ErrorOpeningFile, err, vanerrors.EmptyHandler)
 	}
@@ -50,4 +50,8 @@ func (f *File) Open() (*os.File, error) {
 
 func (f *File) GetPath() string {
 	return f.path
+}
+
+func New(path string) *File {
+	return &File{path: path}
 }

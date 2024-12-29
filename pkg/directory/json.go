@@ -1,6 +1,9 @@
 package directory
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"vfs/pkg/files"
+)
 
 type JsonDir struct {
 	Dirs  map[string]JsonDir `json:"dirs"`
@@ -24,4 +27,26 @@ func (d *Directory) ToJsonDir() JsonDir {
 
 func (d JsonDir) ToJson() ([]byte, error) {
 	return json.MarshalIndent(d, "", "  ")
+}
+
+func (d JsonDir) ToDir() *Directory {
+	var res = NewRoot()
+	res.addJsonDir(d)
+	return res
+}
+
+func (d *Directory) addJsonDir(j JsonDir) {
+	for path, file := range j.Files {
+		d.files[path] = files.New(file)
+	}
+	for path, dir := range j.Dirs {
+		d.dirs[path] = &Directory{
+			dirs:  map[string]*Directory{},
+			files: map[string]*files.File{},
+			last:  d,
+			root:  d.root,
+			name:  path,
+		}
+		d.dirs[path].addJsonDir(dir)
+	}
 }

@@ -2,10 +2,11 @@ package directory
 
 import "vfs/pkg/files"
 
-func NewRoot() *Directory {
+func NewRoot(path string) *Directory {
 	root := &Directory{
-		dirs:  map[string]*Directory{},
-		files: map[string]*files.File{},
+		dirs:      map[string]*Directory{},
+		files:     map[string]*files.File{},
+		file_path: path,
 	}
 	root.last = root
 	root.root = root

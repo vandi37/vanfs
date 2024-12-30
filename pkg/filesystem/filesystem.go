@@ -10,7 +10,7 @@ import (
 type Filesystem struct {
 	root   *directory.Directory
 	curDir *directory.Directory
-	path   string
+	Path   string `json:"-"`
 	Source interface {
 		io.WriterAt
 		io.ReadWriteCloser
@@ -21,7 +21,7 @@ type Filesystem struct {
 }
 
 func New(path string) (*Filesystem, error) {
-	file, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR, 0666)
+	file, err := os.OpenFile(path+"tree.json", os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		return nil, err
 	}
@@ -29,16 +29,16 @@ func New(path string) (*Filesystem, error) {
 	err = json.NewDecoder(file).Decode(fs)
 	fs.Source = file
 	if err != nil {
-		fs.root = directory.NewRoot()
+		fs.root = directory.NewRoot(path)
 		fs.curDir = fs.root
-		fs.path = path
+		fs.Path = path
 		fs.Json = fs.root.ToJsonDir()
 		fs.Name = "vfs"
 		return fs, nil
 	}
-	fs.root = fs.Json.ToDir()
+	fs.root = fs.Json.ToDir(path)
 	fs.curDir = fs.root
-	fs.path = path
+	fs.Path = path
 	return fs, nil
 }
 

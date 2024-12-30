@@ -16,11 +16,12 @@ const (
 )
 
 type Directory struct {
-	dirs  map[string]*Directory
-	files map[string]*files.File
-	last  *Directory
-	root  *Directory
-	name  string
+	dirs      map[string]*Directory
+	files     map[string]*files.File
+	last      *Directory
+	root      *Directory
+	name      string
+	file_path string
 }
 
 func (d *Directory) OpenDir(path string) (*Directory, error) {
@@ -63,11 +64,12 @@ func (d *Directory) openDir(path string, autoCreate bool) (*Directory, error) {
 			return nil, vanerrors.NewSimple(DirectoryDoesNotExists, p)
 		} else if !ok || dir == nil {
 			currentDir.dirs[p] = &Directory{
-				dirs:  map[string]*Directory{},
-				files: map[string]*files.File{},
-				last:  currentDir,
-				root:  currentDir.root,
-				name:  p,
+				dirs:      map[string]*Directory{},
+				files:     map[string]*files.File{},
+				last:      currentDir,
+				root:      currentDir.root,
+				name:      p,
+				file_path: currentDir.file_path,
 			}
 			dir = currentDir.dirs[p]
 		}
@@ -104,11 +106,12 @@ func (d *Directory) addDir(path string, errorIfExist bool) error {
 		return vanerrors.NewSimple(DirectoryExists, paths[len(paths)-1])
 	} else if !ok || dir == nil {
 		currentDir.dirs[paths[len(paths)-1]] = &Directory{
-			dirs:  map[string]*Directory{},
-			files: map[string]*files.File{},
-			last:  d,
-			root:  d.root,
-			name:  paths[len(paths)-1],
+			dirs:      map[string]*Directory{},
+			files:     map[string]*files.File{},
+			last:      currentDir,
+			root:      currentDir.root,
+			name:      paths[len(paths)-1],
+			file_path: currentDir.file_path,
 		}
 	}
 	return nil
@@ -187,7 +190,7 @@ func (d *Directory) removeDir(path string, errorIfNotExist bool) error {
 	if errorIfNotExist && (!ok || dir == nil) {
 		return vanerrors.NewSimple(DirectoryDoesNotExists, paths[len(paths)-1])
 	} else if ok {
-		err :=dir.selfRemove()
+		err := dir.selfRemove()
 		if err != nil {
 			return err
 		}

@@ -18,8 +18,8 @@ type File struct {
 	path string
 }
 
-func Create(name string) (*File, error) {
-	uniqueName := uuid.New().String() + "_" + time.Now().Format("2006.01.02_15.04.05") + "_" + name + ".vfs"
+func Create(name string, path string) (*File, error) {
+	uniqueName := path + uuid.New().String() + "_" + time.Now().Format("2006.01.02_15.04.05") + "_" + name + ".vfs"
 
 	file, err := os.OpenFile(uniqueName, os.O_CREATE, 0666)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 )
 
 func createComplexDirectory() *directory.Directory {
-	root := directory.NewRoot()
+	root := directory.NewRoot("")
 
 	root.AddFile("README.md")
 	root.AddFile("config.yaml")

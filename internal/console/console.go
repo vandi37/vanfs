@@ -3,12 +3,10 @@ package console
 import (
 	"context"
 	"fmt"
-	"os"
 	"strings"
 	"time"
 	"vfs/pkg/cleaner"
 	"vfs/pkg/filesystem"
-	"vfs/pkg/ide"
 
 	"github.com/vandi37/vanerrors"
 )
@@ -16,58 +14,38 @@ import (
 type Console struct {
 	fs      *filesystem.Filesystem
 	cleaner cleaner.Cleaner
+	funcs   map[string]func(s string) error
 }
 
 func New(fs *filesystem.Filesystem, cleaner cleaner.Cleaner) *Console {
-	return &Console{
+	res := &Console{
 		fs:      fs,
 		cleaner: cleaner,
 	}
+	res.Init()
+	return res
 }
 
 func (c *Console) Run(cancel context.CancelFunc) {
 	for {
 		var command string
 		var data string
-		fmt.Printf("\033[38;2;76;121;72m%s\033[0m:\033[38;2;255;255;255m%s\033[0m$ ", c.fs.Name, c.fs.GetPath())
+		path := c.fs.GetPath()
+		if strings.HasPrefix(path, "/home") {
+			path = "~" + path[5:]
+		}
+		fmt.Printf("\033[38;2;76;121;72m%s\033[0m:\033[38;2;255;255;255m%s\033[0m$ ", c.fs.Name, path)
 		fmt.Scanln(&command, &data)
 
 		var err error
-		switch command {
-		case "cd":
-			err = c.fs.Cd(data)
-		case "mkdir":
-			err = c.fs.Mkdir(data)
-		case "tree":
-			res, err := c.fs.Tree(data)
-			if err == nil {
-				fmt.Println(res)
-			}
-		case "ls":
-			var res []string
-			res, err = c.fs.Ls(data)
-			if err == nil {
-				fmt.Println("\033[38;2;189;38;93m", strings.Join(res, "\t"), "\033[0m")
-			}
-		case "rmdir":
-			err = c.fs.Rmdir(data)
-		case "mkf":
-			err = c.fs.Makefile(data)
-		case "rm":
-			err = c.fs.Rm(data)
-		case "of":
-			file := new(os.File)
-			file, err = c.fs.Of(data)
-			defer file.Close()
-			if err == nil {
-				err = ide.Run(file)
-				file.Close()
-			}
-		case "exit":
+
+		f, ok := c.funcs[command]
+		switch {
+		case ok:
+			err = f(data)
+		case command == "exit":
 			cancel()
 			return
-		case "clear":
-			c.cleaner.Clear()
 		default:
 			if command != "" {
 				err = vanerrors.NewSimple("command not exist", command)

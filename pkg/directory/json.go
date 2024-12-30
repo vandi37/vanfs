@@ -29,8 +29,8 @@ func (d JsonDir) ToJson() ([]byte, error) {
 	return json.MarshalIndent(d, "", "  ")
 }
 
-func (d JsonDir) ToDir() *Directory {
-	var res = NewRoot()
+func (d JsonDir) ToDir(path string) *Directory {
+	var res = NewRoot(path)
 	res.addJsonDir(d)
 	return res
 }

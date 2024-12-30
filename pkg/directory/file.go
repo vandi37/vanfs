@@ -37,7 +37,7 @@ func (d *Directory) addFile(path string, errorIfExist bool) error {
 	if errorIfExist && ok && f != nil {
 		return vanerrors.NewSimple(FileExists, paths[last])
 	} else if !ok || f == nil {
-		file, err := files.Create(paths[last])
+		file, err := files.Create(paths[last], currentDir.file_path)
 		if err != nil {
 			return err
 		}

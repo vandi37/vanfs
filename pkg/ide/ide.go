@@ -1,6 +1,7 @@
 package ide
 
 import (
+	"math"
 	"os"
 	"strings"
 
@@ -19,12 +20,15 @@ type model struct {
 	width          int
 	ready          bool
 	viewportHeight int
+	message        string
 }
 
 func initialModel(file *os.File) model {
 	ta := textarea.New()
 	ta.Placeholder = "Start typing..."
 	ta.Focus()
+	ta.CharLimit = math.MaxInt
+	ta.MaxHeight = int(math.Pow10(15)) - 1
 
 	m := model{
 		textarea: ta,
@@ -37,6 +41,7 @@ func initialModel(file *os.File) model {
 		quitting:       false,
 		ready:          false,
 		viewportHeight: 0,
+		message:        "\033[38;2;10;99;27mSaved!",
 	}
 	m.loadFile()
 	return m
@@ -81,7 +86,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "ctrl+s":
 			m.saveFile()
+			m.message = "\033[38;2;10;99;27mSaved!"
 			return m, nil
+		default:
+			m.message = ""
+
 		}
 	}
 
@@ -99,9 +108,8 @@ func (m model) View() string {
 	if m.quitting {
 		return ""
 	}
-
 	instructions := strings.Join(m.instruction, "\n")
-	return lipgloss.JoinVertical(lipgloss.Left, instructions, m.viewport.View())
+	return lipgloss.JoinVertical(lipgloss.Left, instructions, m.viewport.View(), m.message)
 }
 
 func (m model) drawText() string {

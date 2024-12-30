@@ -166,18 +166,20 @@ func (d *Directory) removeDir(path string, errorIfNotExist bool) error {
 	}
 
 	if path[0] == '/' {
-		return d.root.addDir(path[1:], errorIfNotExist)
+		return d.root.removeDir(path[1:], errorIfNotExist)
 	}
+
 	paths := strings.Split(path, "/")
 
 	currentDir := d
 	if len(paths) > 1 {
 		var err error
-		currentDir, err = d.OpenDirOrCreate(strings.Join(paths[:len(paths)-1], "/"))
-		if err != nil && errorIfNotExist {
-			return err
-		} else if err != nil {
+		currentDir, err = d.OpenDir(strings.Join(paths[:len(paths)-1], "/"))
+		if vanerrors.GetName(err) == DirectoryDoesNotExists && !errorIfNotExist {
 			return nil
+		}
+		if err != nil {
+			return err
 		}
 	}
 
@@ -185,7 +187,10 @@ func (d *Directory) removeDir(path string, errorIfNotExist bool) error {
 	if errorIfNotExist && (!ok || dir == nil) {
 		return vanerrors.NewSimple(DirectoryDoesNotExists, paths[len(paths)-1])
 	} else if ok {
-		currentDir.selfRemove()
+		err :=dir.selfRemove()
+		if err != nil {
+			return err
+		}
 		delete(currentDir.dirs, paths[len(paths)-1])
 	}
 	return nil

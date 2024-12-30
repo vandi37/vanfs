@@ -27,7 +27,7 @@ func (d *Directory) addFile(path string, errorIfExist bool) error {
 	currentDir := d
 	if len(paths) > 1 {
 		var err error
-		currentDir, err = d.OpenDirOrCreate(strings.Join(paths[:len(paths)-1], "/"))
+		currentDir, err = d.OpenDirOrCreate(strings.Join(paths[:last], "/"))
 		if err != nil {
 			return err
 		}
@@ -70,11 +70,12 @@ func (d *Directory) removeFile(path string, errorIfNotExist bool) error {
 	currentDir := d
 	if len(paths) > 1 {
 		var err error
-		currentDir, err = d.OpenDirOrCreate(strings.Join(paths[:len(paths)-1], "/"))
-		if err != nil && errorIfNotExist {
-			return err
-		} else if err != nil {
+		currentDir, err = d.OpenDir(strings.Join(paths[:len(paths)-1], "/"))
+		if vanerrors.GetName(err) == FileDoesNotExists && !errorIfNotExist {
 			return nil
+		}
+		if err != nil {
+			return err
 		}
 	}
 

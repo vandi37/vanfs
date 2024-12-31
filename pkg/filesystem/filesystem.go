@@ -21,21 +21,21 @@ type Filesystem struct {
 }
 
 func New(path string) (*Filesystem, error) {
-	file, err := os.OpenFile(path+"tree.json", os.O_CREATE|os.O_RDWR, 0666)
+	file, err := os.OpenFile(path+"tree.json", os.O_RDWR, 0666)
 	if err != nil {
 		return nil, err
 	}
+	defer file.Close()
+
 	var fs = &Filesystem{}
+
 	err = json.NewDecoder(file).Decode(fs)
-	fs.Source = file
+
 	if err != nil {
-		fs.root = directory.NewRoot(path)
-		fs.curDir = fs.root
-		fs.Path = path
-		fs.Json = fs.root.ToJsonDir()
-		fs.Name = "vfs"
-		return fs, nil
+		return nil, err
 	}
+
+	fs.Source = file
 	fs.root = fs.Json.ToDir(path)
 	fs.curDir = fs.root
 	fs.Path = path

@@ -11,8 +11,12 @@ const (
 	PathNotFound = "path not found"
 )
 
+const (
+	VFS_PATH = "VFS_PATH"
+)
+
 func LoadPath() (string, error) {
-	path := os.Getenv("VFS_PATH")
+	path := os.Getenv(VFS_PATH)
 
 	if path == "" {
 		return "", vanerrors.NewSimple(PathNotFound)
@@ -22,4 +26,3 @@ func LoadPath() (string, error) {
 	}
 	return path, nil
 }
-

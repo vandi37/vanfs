@@ -2,10 +2,8 @@ package console
 
 import (
 	"fmt"
-	"io"
 	"strings"
 
-	"github.com/vandi37/vanerrors"
 	"github.com/vandi37/vanfs/pkg/ide"
 )
 
@@ -52,16 +50,10 @@ func (c *Console) Clear(s string) error {
 }
 
 func (c *Console) Cat(s string) error {
-	file, err := c.fs.Of(s)
+	res, err := c.fs.Cat(s)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
-	res, err := io.ReadAll(file)
-	if err != nil {
-		return vanerrors.NewSimple("error to read file")
-	}
 	fmt.Printf("\033[38;2;144;238;144m%s\033[0m\n", res)
-	file.Close()
 	return nil
 }

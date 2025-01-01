@@ -5,7 +5,12 @@ import (
 	"io"
 	"os"
 
+	"github.com/vandi37/vanerrors"
 	"github.com/vandi37/vanfs/pkg/directory"
+)
+
+const (
+	ErrorToReadFile = "error to read file"
 )
 
 type Filesystem struct {
@@ -62,6 +67,19 @@ func (f *Filesystem) Cd(path string) error {
 
 func (f *Filesystem) Of(path string) (*os.File, error) {
 	return f.curDir.OpenFileOrAdd(path)
+}
+
+func (f *Filesystem) Cat(path string) (string, error) {
+	file, err := f.curDir.OpenFile(path)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+	res, err := io.ReadAll(file)
+	if err != nil {
+		return "", vanerrors.NewSimple(ErrorToReadFile)
+	}
+	return string(res), nil
 }
 
 func (f *Filesystem) Mkdir(path string) error {

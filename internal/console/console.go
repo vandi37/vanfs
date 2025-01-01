@@ -36,7 +36,6 @@ func (c *Console) Run(cancel context.CancelFunc) {
 		}
 		fmt.Printf("\033[38;2;76;121;72m%s\033[0m:\033[38;2;255;255;255m%s\033[0m$ ", c.fs.Name, path)
 		fmt.Scanln(&command, &data)
-
 		var err error
 
 		f, ok := c.funcs[command]

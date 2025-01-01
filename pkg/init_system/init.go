@@ -1,10 +1,8 @@
 package init_system
 
 import (
-	"fmt"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/vandi37/vanerrors"
@@ -50,10 +48,5 @@ func Init() (*filesystem.Filesystem, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	go func() {
-		time.Sleep(time.Millisecond)
-		fmt.Printf("\n\033[0m\033[38;2;200;24;0m!!! Created system %s with backup file %s\n", systemName, backupPath)
-	}()
 	return fs, nil
 }

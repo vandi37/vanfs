@@ -1,6 +1,6 @@
 package directory
 
-import "vfs/pkg/files"
+import "github.com/vandi37/vanfs/pkg/files"
 
 func NewRoot(path string) *Directory {
 	root := &Directory{

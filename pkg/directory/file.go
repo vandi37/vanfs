@@ -3,9 +3,9 @@ package directory
 import (
 	"os"
 	"strings"
-	"vfs/pkg/files"
 
 	"github.com/vandi37/vanerrors"
+	"github.com/vandi37/vanfs/pkg/files"
 )
 
 func (d *Directory) addFile(path string, errorIfExist bool) error {

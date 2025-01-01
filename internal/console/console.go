@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"strings"
 	"time"
-	"vfs/pkg/cleaner"
-	"vfs/pkg/filesystem"
 
 	"github.com/vandi37/vanerrors"
+	"github.com/vandi37/vanfs/pkg/cleaner"
+	"github.com/vandi37/vanfs/pkg/filesystem"
 )
 
 type Console struct {

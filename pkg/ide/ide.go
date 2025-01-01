@@ -20,6 +20,7 @@ type model struct {
 	width          int
 	ready          bool
 	viewportHeight int
+	viewportWidth  int
 	message        string
 }
 
@@ -41,6 +42,7 @@ func initialModel(file *os.File) model {
 		quitting:       false,
 		ready:          false,
 		viewportHeight: 0,
+		viewportWidth:  0,
 		message:        "\033[38;2;10;99;27mSaved!",
 	}
 	m.loadFile()
@@ -66,18 +68,23 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		if !m.ready {
-			m.width = msg.Width
+			m.viewportWidth = msg.Width
 			m.viewportHeight = msg.Height - instructionHeight - 1
+			m.viewportWidth = msg.Width
+
 			m.viewport = viewport.New(msg.Width, m.viewportHeight)
 			m.textarea.SetHeight(m.viewportHeight)
+			m.textarea.SetWidth(m.viewportWidth)
 			m.viewport.SetContent(m.drawText())
 			m.ready = true
 		} else {
 			m.width = msg.Width
 			m.viewportHeight = msg.Height - instructionHeight - 1
 			m.viewport.Width = msg.Width
+			m.viewportWidth = msg.Width
 			m.viewport.Height = m.viewportHeight
 			m.textarea.SetHeight(m.viewportHeight)
+			m.textarea.SetWidth(m.viewportWidth)
 		}
 	case tea.KeyMsg:
 		switch msg.String() {

@@ -5,10 +5,10 @@ import (
 	"os"
 	"strings"
 	"time"
-	"vfs/pkg/filesystem"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/vandi37/vanerrors"
+	"github.com/vandi37/vanfs/pkg/filesystem"
 )
 
 const (

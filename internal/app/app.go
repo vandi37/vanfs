@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"vfs/internal/console"
-	"vfs/internal/path"
-	"vfs/pkg/choose"
-	"vfs/pkg/cleaner"
-	"vfs/pkg/filesystem"
-	"vfs/pkg/init_system"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/vandi37/vanfs/internal/console"
+	"github.com/vandi37/vanfs/internal/path"
+	"github.com/vandi37/vanfs/pkg/choose"
+	"github.com/vandi37/vanfs/pkg/cleaner"
+	"github.com/vandi37/vanfs/pkg/filesystem"
+	"github.com/vandi37/vanfs/pkg/init_system"
 )
 
 func Run(ctx context.Context) {

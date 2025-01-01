@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"io"
 	"os"
-	"vfs/pkg/directory"
+
+	"github.com/vandi37/vanfs/pkg/directory"
 )
 
 type Filesystem struct {
@@ -37,7 +38,11 @@ func New(path string) (*Filesystem, error) {
 
 	fs.Source = file
 	fs.root = fs.Json.ToDir(path)
-	fs.curDir = fs.root
+	curDir, err := fs.root.OpenDirOrCreate("/home")
+	if err != nil {
+		return nil, err
+	}
+	fs.curDir = curDir
 	fs.Path = path
 	return fs, nil
 }

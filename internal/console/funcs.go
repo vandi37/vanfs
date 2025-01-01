@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io"
 	"strings"
-	"vfs/pkg/ide"
 
 	"github.com/vandi37/vanerrors"
+	"github.com/vandi37/vanfs/pkg/ide"
 )
 
 func (c *Console) Tree(s string) error {

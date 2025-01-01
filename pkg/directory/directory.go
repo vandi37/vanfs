@@ -2,9 +2,9 @@ package directory
 
 import (
 	"strings"
-	"vfs/pkg/files"
 
 	"github.com/vandi37/vanerrors"
+	"github.com/vandi37/vanfs/pkg/files"
 )
 
 const (

@@ -3,7 +3,8 @@ package directory_test
 import (
 	"fmt"
 	"testing"
-	"vfs/pkg/directory"
+
+	"github.com/vandi37/vanfs/pkg/directory"
 )
 
 func createComplexDirectory() *directory.Directory {

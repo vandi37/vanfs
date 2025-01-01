@@ -4,7 +4,8 @@ import (
 	"context"
 	"os/signal"
 	"syscall"
-	"vfs/internal/app"
+
+	"github.com/vandi37/vanfs/internal/app"
 )
 
 func main() {

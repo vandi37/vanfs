@@ -1,4 +1,4 @@
-module vfs
+module github.com/vandi37/vanfs
 
 go 1.23.0
 

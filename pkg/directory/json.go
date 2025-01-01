@@ -2,7 +2,8 @@ package directory
 
 import (
 	"encoding/json"
-	"vfs/pkg/files"
+
+	"github.com/vandi37/vanfs/pkg/files"
 )
 
 type JsonDir struct {

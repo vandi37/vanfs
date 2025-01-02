@@ -1,17 +1,7 @@
 package main
 
-import (
-	"context"
-	"os/signal"
-	"syscall"
-
-	"github.com/vandi37/vanfs/internal/app"
-)
+import "github.com/vandi37/vanfs/cmd"
 
 func main() {
-	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer stop()
-
-	app.Run(ctx)
-
+	cmd.Run()
 }

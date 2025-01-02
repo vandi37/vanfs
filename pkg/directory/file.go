@@ -123,7 +123,7 @@ func (d *Directory) openFile(path string, errorIfNotExist bool) (*os.File, error
 	}
 
 	file, ok := currentDir.files[paths[len(paths)-1]]
-	if errorIfNotExist && ok && file != nil {
+	if errorIfNotExist && (!ok || file == nil) {
 		return nil, vanerrors.NewSimple(FileDoesNotExists, paths[len(paths)-1])
 	} else if !ok || file == nil {
 		err := currentDir.AddFile(paths[len(paths)-1])

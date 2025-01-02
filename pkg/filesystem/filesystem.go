@@ -31,7 +31,6 @@ func New(path string) (*Filesystem, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
 
 	var fs = &Filesystem{}
 

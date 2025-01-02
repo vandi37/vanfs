@@ -76,5 +76,6 @@ func Run(ctx context.Context) {
 	go console.Run(cancel)
 
 	<-ctx.Done()
+	fs.Source.Close()
 	fmt.Println("\n\033[38;2;196;124;25mExiting...\033[0m")
 }

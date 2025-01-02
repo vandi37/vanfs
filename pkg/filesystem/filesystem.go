@@ -139,7 +139,11 @@ func (f *Filesystem) Tree(path string) (string, error) {
 }
 
 func (f *Filesystem) Reload() error {
-	d, err := f.root.OpenDir(f.GetPath())
+	path := f.GetPath()
+	if path != "/" {
+		path = path[:1]
+	}
+	d, err := f.root.OpenDir(path)
 	if err != nil {
 		return err
 	}

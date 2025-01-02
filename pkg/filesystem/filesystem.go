@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/vandi37/vanerrors"
 	"github.com/vandi37/vanfs/pkg/directory"
@@ -141,7 +142,7 @@ func (f *Filesystem) Tree(path string) (string, error) {
 func (f *Filesystem) Reload() error {
 	path := f.GetPath()
 	if path != "/" {
-		path = path[:1]
+		path = strings.TrimPrefix(path, "/")
 	}
 	d, err := f.root.OpenDir(path)
 	if err != nil {

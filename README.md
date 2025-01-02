@@ -250,4 +250,38 @@ Commands :
 
     ![](img/image17.png)
 
-    ![](img/image18.png)    
+    ![](img/image18.png)
+
+ ### Working with files
+
+Commands :
+    - `of` (open file)
+    - `cat` (catenate)
+    - `mkf` (make file)
+    - `rm` (remove file)
+
+- of {name}
+
+    opens a file i text editor based on [text area](https://github.com/charmbracelet/bubbles/tree/v0.20.0?tab=readme-ov-file#text-area)
+
+    ![](img/image19.png)
+
+    ![](img/image20.png)
+
+    you can write any text
+
+    ![](img/image21.png)
+
+    to save `ctrl+s`
+
+    ![](img/image22.png)
+
+    to exit `ctrl+c`
+
+    > [!TIP]
+    >
+    > for all {name} it is the same as with mkdir with entering any path.
+
+- cat {name}
+
+    prints 

@@ -61,9 +61,7 @@ To install vanfs on [linux](https://ru.wikipedia.org/wiki/Linux) or [macos](http
         make install # you can edit the bin path in the Makefile
         ```
 
-        > [!WARNING]
-        >
-        > **Be sure that you are at the root of the project.**
+       **Be sure that you are at the root of the project.**
 
     2. Install by yourself
 
@@ -73,9 +71,7 @@ To install vanfs on [linux](https://ru.wikipedia.org/wiki/Linux) or [macos](http
         sudo mv vanfs /usr/bin  # or your bin path
         ```
 
-        > [!WARNING]
-        >
-        > **Be sure that you are at the root of the project.**
+       **Be sure that you are at the root of the project.**
 
 4. Enjoy your vanfs
     

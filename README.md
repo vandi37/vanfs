@@ -105,7 +105,9 @@ You can enter any name.
 
 ![](img/image3.png)
 
-Default name will be **vfs**![alt text](image.png)
+Default name will be **vfs**
+
+![](image.png)
 
 After you need to enter path to backup directory 
 
@@ -284,4 +286,68 @@ Commands :
 
 - cat {name}
 
-    prints 
+    prints all file data
+
+    ![](img/image23.png)
+
+- mkf {name} 
+
+    creates a new file
+
+    ![](img/image24.png)
+
+- rm {name} 
+
+    removes the file
+
+    ![](img/image25.png)
+
+### Lists 
+
+Commands :
+    - `ls` (list)
+    - `tree`
+
+- ls {path (could be empty)}
+
+    shows list of all directories and files
+
+    ![](img/image26.png)
+
+    ![](img/image27.png)
+
+- tree {path (could be empty)}
+
+    shows the tree 
+
+    ![](img/image28.png)
+
+    ![](img/image29.png)
+
+### Other 
+
+Commands:
+
+  - `clear` (clears console)
+  - `exit` (exits from vfs)
+  - `path` (shows path to backup file)
+
+- clear
+
+    clears console 
+
+    ![](img/image30.png)
+
+    ![](img/image6.png)
+
+- exit
+
+    exits from vfs
+
+    ![](img/image31.png)
+
+- path
+
+    shows path to backup file
+
+    ![](img/image32.png)

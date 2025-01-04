@@ -155,6 +155,7 @@ After creating and loading your vfs you can run this commands
 ### Working with directories
 
 Commands :
+
     - `cd` (change directory)
     - `mkdir` (make directory)
     - `rmdir` (remove directory)
@@ -254,6 +255,7 @@ Commands :
  ### Working with files
 
 Commands :
+
     - `of` (open file)
     - `cat` (catenate)
     - `mkf` (make file)
@@ -302,6 +304,7 @@ Commands :
 ### Lists 
 
 Commands :
+
     - `ls` (list)
     - `tree`
 

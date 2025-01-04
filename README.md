@@ -196,9 +196,9 @@ After creating and loading your vfs you can run this commands
 
     ![](img/image11.png)
 
-    > [!TIP]
-    > 
-    > **ls** shows the list of directories and files
+> [!TIP]
+> 
+> **ls** shows the list of directories and files
 
 - mkdir {path for cd}/{name} 
 

@@ -38,11 +38,10 @@ To install vanfs on [linux](https://ru.wikipedia.org/wiki/Linux) or [macos](http
 1. Prepare
 
     [install go](https://go.dev/dl/) if you don't have it.
+
     [install git](https://git-scm.com/downloads) if you don't have it.
 
-    optional
-
-    you can install [Make](https://ru.wikipedia.org/wiki/Make) if you want to use [Makefile](Makefile)
+    optional: you can install [Make](https://ru.wikipedia.org/wiki/Make) if you want to use [Makefile](Makefile)
 
 2. Clone the repository.
 
@@ -61,9 +60,7 @@ To install vanfs on [linux](https://ru.wikipedia.org/wiki/Linux) or [macos](http
         make install # you can edit the bin path in the Makefile
         ```
 
-        > [!WARNING]
-        >
-        > **Be sure that you are at the root of the project.**
+       **Be sure that you are at the root of the project.**
 
     2. Install by yourself
 
@@ -73,9 +70,7 @@ To install vanfs on [linux](https://ru.wikipedia.org/wiki/Linux) or [macos](http
         sudo mv vanfs /usr/bin  # or your bin path
         ```
 
-        > [!WARNING]
-        >
-        > **Be sure that you are at the root of the project.**
+       **Be sure that you are at the root of the project.**
 
 4. Enjoy your vanfs
     
@@ -95,7 +90,7 @@ If you run the program you will see the start menu
 
 ### What means "Load from path"?
 
-To storage the directory tree and all file data should be a directory (in the real filesystem) with all files and the [file with tree](example\tree.json)
+To storage the directory tree and all file data should be a directory (in the real filesystem) with all files and the [file with tree](example/tree.json)
 
 ### Creating new file system
 
@@ -349,9 +344,12 @@ Commands:
     shows path to backup file
 
     ![](img/image32.png)
+<<<<<<< HEAD
     
 ## Other
 
 ### License
 
 [Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE)
+=======
+>>>>>>> 54f8f365b19b8ae315192d85e3f3f68cd5317576

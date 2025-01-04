@@ -154,12 +154,6 @@ After creating and loading your vfs you can run this commands
 
 ### Working with directories
 
-Commands :
-
-    - `cd` (change directory)
-    - `mkdir` (make directory)
-    - `rmdir` (remove directory)
-
 - cd {path} 
 
     move your current directory to another directory
@@ -254,13 +248,6 @@ Commands :
 
  ### Working with files
 
-Commands :
-
-    - `of` (open file)
-    - `cat` (catenate)
-    - `mkf` (make file)
-    - `rm` (remove file)
-
 - of {name}
 
     opens a file i text editor based on [text area](https://github.com/charmbracelet/bubbles/tree/v0.20.0?tab=readme-ov-file#text-area)
@@ -325,12 +312,6 @@ Commands :
     ![](img/image29.png)
 
 ### Other 
-
-Commands:
-
-  - `clear` (clears console)
-  - `exit` (exits from vfs)
-  - `path` (shows path to backup file)
 
 - clear
 

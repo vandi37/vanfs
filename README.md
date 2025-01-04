@@ -344,12 +344,9 @@ Commands:
     shows path to backup file
 
     ![](img/image32.png)
-<<<<<<< HEAD
     
 ## Other
 
 ### License
 
 [Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE)
-=======
->>>>>>> 54f8f365b19b8ae315192d85e3f3f68cd5317576

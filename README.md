@@ -23,7 +23,7 @@ To install vanfs on [windows](https://ru.wikipedia.org/wiki/Windows) you need to
 2. Install
 
     ```powershell
-    go install github.com/vandi37/vanfs
+    go install github.com/vandi37/vanfs@latest
     ```
 3. Enjoy your vanfs
     
@@ -46,7 +46,7 @@ To install vanfs on [linux](https://ru.wikipedia.org/wiki/Linux) or [macos](http
 2. Clone the repository.
 
     ```bash
-    git clone git@github.com:vandi37/vanfs.git
+    git clone https://github.com/vandi37/vanfs.git
     cd vanfs
     ```
 

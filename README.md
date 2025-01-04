@@ -107,8 +107,6 @@ You can enter any name.
 
 Default name will be **vfs**
 
-![](image.png)
-
 After you need to enter path to backup directory 
 
 The directory should exist, or the program will trow an error
@@ -351,3 +349,9 @@ Commands:
     shows path to backup file
 
     ![](img/image32.png)
+    
+## Other
+
+### License
+
+[Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE)

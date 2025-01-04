@@ -229,12 +229,12 @@ Commands :
 
     ![](img/image15.png)
 
-- mkdir {path for cd}/{name} 
+- rmdir {path for cd}/{name} 
 
     as 
     
     ```vanfs
-    mkdir {path for cd}/{name} 
+    rmdir {path for cd}/{name} 
     ```
 
     it is as 

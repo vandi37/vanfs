@@ -1,0 +1,12 @@
+{
+  "name": "vfs",
+  "files": {
+    "dirs": {
+      "home": {
+        "dirs": {},
+        "files": {}
+      }
+    },
+    "files": {}
+  }
+}

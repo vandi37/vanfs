@@ -27,7 +27,4 @@ go.work.sum
 # fs files
 *.vfs
 
-# json files
-*.json
-
 .vscode/

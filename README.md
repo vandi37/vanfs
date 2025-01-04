@@ -154,12 +154,6 @@ After creating and loading your vfs you can run this commands
 
 ### Working with directories
 
-Commands :
-
-    - `cd` (change directory)
-    - `mkdir` (make directory)
-    - `rmdir` (remove directory)
-
 - cd {path} 
 
     move your current directory to another directory
@@ -202,9 +196,9 @@ Commands :
 
     ![](img/image11.png)
 
-    > [!TIP]
-    > 
-    > **ls** shows the list of directories and files
+> [!TIP]
+> 
+> **ls** shows the list of directories and files
 
 - mkdir {path for cd}/{name} 
 
@@ -253,13 +247,6 @@ Commands :
     ![](img/image18.png)
 
  ### Working with files
-
-Commands :
-
-    - `of` (open file)
-    - `cat` (catenate)
-    - `mkf` (make file)
-    - `rm` (remove file)
 
 - of {name}
 
@@ -325,12 +312,6 @@ Commands :
     ![](img/image29.png)
 
 ### Other 
-
-Commands:
-
-  - `clear` (clears console)
-  - `exit` (exits from vfs)
-  - `path` (shows path to backup file)
 
 - clear
 

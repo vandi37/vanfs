@@ -290,11 +290,6 @@ After creating and loading your vfs you can run this commands
 
 ### Lists 
 
-Commands :
-
-    - `ls` (list)
-    - `tree`
-
 - ls {path (could be empty)}
 
     shows list of all directories and files

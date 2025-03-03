@@ -8,7 +8,7 @@ import (
 )
 
 func (c *Console) Help(s string) error {
-	fmt.Printf(`%s`, `cd {path}: Change directory
+	fmt.Printf(`%s\n`, `cd {path}: Change directory
 
 tree {path}: View tree,
 

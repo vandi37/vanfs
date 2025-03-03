@@ -34,7 +34,7 @@ func Load() (int, bool, error) {
 
 	// Help
 	if load.Help {
-		fmt.Println(load.ProseccHelp())
+		fmt.Println(load.ProcessHelp())
 		return -1, true, nil
 	}
 
@@ -63,8 +63,13 @@ var help = map[string]string{
 	"default": `--default (-D) Loading from env 'VFS_PATH. `,
 }
 
-func (l *Loading) ProseccHelp() string {
+func (l *Loading) ProcessHelp() string {
 	needHelp := []string{}
+	if !l.New && !l.BoolPath && !l.Default {
+		l.New = true
+		l.BoolPath = true
+		l.Default = true
+	}
 	if l.New {
 		needHelp = append(needHelp, help["new"])
 	}

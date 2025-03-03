@@ -16,8 +16,6 @@ import (
 	"github.com/vandi37/vanfs/pkg/init_system"
 )
 
-
-
 func Run(ctx context.Context) {
 	variant, ok, err := load.Load()
 	if err != nil {
@@ -33,7 +31,7 @@ func Run(ctx context.Context) {
 			return
 		}
 	}
-	
+
 	var fs = new(filesystem.Filesystem)
 
 	switch variant {

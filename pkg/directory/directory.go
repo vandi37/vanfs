@@ -1,6 +1,7 @@
 package directory
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/vandi37/vanerrors"
@@ -34,7 +35,7 @@ func (d *Directory) OpenDirOrCreate(path string) (*Directory, error) {
 
 func (d *Directory) openDir(path string, autoCreate bool) (*Directory, error) {
 	if len(path) < 1 {
-		return nil, vanerrors.NewSimple(EmptyPath)
+		return nil, vanerrors.Simple(EmptyPath)
 	}
 
 	if path[len(path)-1] == '/' && path != "/" {
@@ -61,7 +62,7 @@ func (d *Directory) openDir(path string, autoCreate bool) (*Directory, error) {
 
 		dir, ok := currentDir.dirs[p]
 		if !autoCreate && (!ok || dir == nil) {
-			return nil, vanerrors.NewSimple(DirectoryDoesNotExists, p)
+			return nil, vanerrors.New(DirectoryDoesNotExists, p)
 		} else if !ok || dir == nil {
 			currentDir.dirs[p] = &Directory{
 				dirs:      map[string]*Directory{},
@@ -80,7 +81,7 @@ func (d *Directory) openDir(path string, autoCreate bool) (*Directory, error) {
 
 func (d *Directory) addDir(path string, errorIfExist bool) error {
 	if len(path) < 1 {
-		return vanerrors.NewSimple(EmptyPath)
+		return vanerrors.Simple(EmptyPath)
 	}
 
 	if path[len(path)-1] == '/' && path != "/" {
@@ -103,7 +104,7 @@ func (d *Directory) addDir(path string, errorIfExist bool) error {
 
 	dir, ok := currentDir.dirs[paths[len(paths)-1]]
 	if errorIfExist && ok && dir != nil {
-		return vanerrors.NewSimple(DirectoryExists, paths[len(paths)-1])
+		return vanerrors.New(DirectoryExists, paths[len(paths)-1])
 	} else if !ok || dir == nil {
 		currentDir.dirs[paths[len(paths)-1]] = &Directory{
 			dirs:      map[string]*Directory{},
@@ -178,7 +179,7 @@ func (d *Directory) removeDir(path string, errorIfNotExist bool) error {
 	if len(paths) > 1 {
 		var err error
 		currentDir, err = d.OpenDir(strings.Join(paths[:len(paths)-1], "/"))
-		if vanerrors.GetName(err) == DirectoryDoesNotExists && !errorIfNotExist {
+		if errors.Is(err, vanerrors.Simple(DirectoryDoesNotExists)) && !errorIfNotExist {
 			return nil
 		}
 		if err != nil {
@@ -188,7 +189,7 @@ func (d *Directory) removeDir(path string, errorIfNotExist bool) error {
 
 	dir, ok := currentDir.dirs[paths[len(paths)-1]]
 	if errorIfNotExist && (!ok || dir == nil) {
-		return vanerrors.NewSimple(DirectoryDoesNotExists, paths[len(paths)-1])
+		return vanerrors.New(DirectoryDoesNotExists, paths[len(paths)-1])
 	} else if ok {
 		err := dir.selfRemove()
 		if err != nil {

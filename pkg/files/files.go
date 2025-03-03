@@ -23,7 +23,7 @@ func Create(name string, path string) (*File, error) {
 
 	file, err := os.OpenFile(uniqueName, os.O_CREATE, 0777)
 	if err != nil {
-		return nil, vanerrors.NewWrap(ErrorCreatingFile, err, vanerrors.EmptyHandler)
+		return nil, vanerrors.Wrap(ErrorCreatingFile, err)
 	}
 	defer file.Close()
 
@@ -35,7 +35,7 @@ func Create(name string, path string) (*File, error) {
 func (f *File) Remove() error {
 	err := os.Remove(f.path)
 	if err != nil {
-		return vanerrors.NewWrap(ErrorRemovingFile, err, vanerrors.EmptyHandler)
+		return vanerrors.Wrap(ErrorRemovingFile, err)
 	}
 	return nil
 }
@@ -43,7 +43,7 @@ func (f *File) Remove() error {
 func (f *File) Open() (*os.File, error) {
 	file, err := os.OpenFile(f.path, os.O_RDWR, 0777)
 	if err != nil {
-		return nil, vanerrors.NewWrap(ErrorOpeningFile, err, vanerrors.EmptyHandler)
+		return nil, vanerrors.Wrap(ErrorOpeningFile, err)
 	}
 	return file, nil
 }

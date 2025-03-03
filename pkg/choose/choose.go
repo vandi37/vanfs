@@ -87,11 +87,11 @@ func Choose() (int, error) {
 	p := tea.NewProgram(initialModel())
 	m, err := p.Run()
 	if err != nil {
-		return -1, vanerrors.NewWrap(ErrorToChoose, err, vanerrors.EmptyHandler)
+		return -1, vanerrors.Wrap(ErrorToChoose, err)
 	}
 	module, ok := m.(Model)
 	if !ok {
-		return -1, vanerrors.NewSimple(ErrorToChoose)
+		return -1, vanerrors.Simple(ErrorToChoose)
 	}
 
 	if module.selected {

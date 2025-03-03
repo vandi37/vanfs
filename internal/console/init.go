@@ -13,5 +13,6 @@ func (c *Console) Init() {
 		"path":  c.Path,
 		"clear": c.Clear,
 		"cat":   c.Cat,
+		"help":  c.Help,
 	}
 }

@@ -34,7 +34,7 @@ func Init() (*filesystem.Filesystem, error) {
 	if backupPath == "" {
 		path, err := os.Getwd()
 		if err != nil {
-			return nil, vanerrors.NewWrap(ErrorGettingPath, err, vanerrors.EmptyHandler)
+			return nil, vanerrors.Wrap(ErrorGettingPath, err)
 		}
 		backupPath = path + "/vfs_backup/"
 		os.Mkdir(backupPath, 0777)

@@ -77,7 +77,7 @@ func (f *Filesystem) Cat(path string) (string, error) {
 	defer file.Close()
 	res, err := io.ReadAll(file)
 	if err != nil {
-		return "", vanerrors.NewSimple(ErrorToReadFile)
+		return "", vanerrors.Simple(ErrorToReadFile)
 	}
 	return string(res), nil
 }

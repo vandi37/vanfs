@@ -19,7 +19,7 @@ func LoadPath() (string, error) {
 	path := os.Getenv(VFS_PATH)
 
 	if path == "" {
-		return "", vanerrors.NewSimple(PathNotFound)
+		return "", vanerrors.Simple(PathNotFound)
 	}
 	if !strings.HasSuffix(path, "/") {
 		path += "/"

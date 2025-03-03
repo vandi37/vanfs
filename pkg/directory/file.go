@@ -1,6 +1,7 @@
 package directory
 
 import (
+	"errors"
 	"os"
 	"strings"
 
@@ -10,7 +11,7 @@ import (
 
 func (d *Directory) addFile(path string, errorIfExist bool) error {
 	if len(path) < 1 {
-		return vanerrors.NewSimple(EmptyPath)
+		return vanerrors.Simple(EmptyPath)
 	}
 
 	if path[len(path)-1] == '/' && path != "/" {
@@ -35,7 +36,7 @@ func (d *Directory) addFile(path string, errorIfExist bool) error {
 
 	f, ok := currentDir.files[paths[last]]
 	if errorIfExist && ok && f != nil {
-		return vanerrors.NewSimple(FileExists, paths[last])
+		return vanerrors.New(FileExists, paths[last])
 	} else if !ok || f == nil {
 		file, err := files.Create(paths[last], currentDir.file_path)
 		if err != nil {
@@ -56,7 +57,7 @@ func (d *Directory) AddFileIfNotExists(path string) error {
 
 func (d *Directory) removeFile(path string, errorIfNotExist bool) error {
 	if len(path) < 1 {
-		return vanerrors.NewSimple(EmptyPath)
+		return vanerrors.Simple(EmptyPath)
 	}
 	if path[len(path)-1] == '/' && path != "/" {
 		path = path[1:]
@@ -71,7 +72,7 @@ func (d *Directory) removeFile(path string, errorIfNotExist bool) error {
 	if len(paths) > 1 {
 		var err error
 		currentDir, err = d.OpenDir(strings.Join(paths[:len(paths)-1], "/"))
-		if vanerrors.GetName(err) == FileDoesNotExists && !errorIfNotExist {
+		if errors.Is(err, vanerrors.Simple(FileDoesNotExists)) && !errorIfNotExist {
 			return nil
 		}
 		if err != nil {
@@ -81,7 +82,7 @@ func (d *Directory) removeFile(path string, errorIfNotExist bool) error {
 
 	file, ok := currentDir.files[paths[len(paths)-1]]
 	if errorIfNotExist && (!ok || file == nil) {
-		return vanerrors.NewSimple(FileDoesNotExists, paths[len(paths)-1])
+		return vanerrors.New(FileDoesNotExists, paths[len(paths)-1])
 	} else if ok && file != nil {
 		err := file.Remove()
 		if err != nil {
@@ -101,7 +102,7 @@ func (d *Directory) RemoveFileIfExists(path string) error {
 
 func (d *Directory) openFile(path string, errorIfNotExist bool) (*os.File, error) {
 	if len(path) < 1 {
-		return nil, vanerrors.NewSimple(EmptyPath)
+		return nil, vanerrors.Simple(EmptyPath)
 	}
 
 	if path[len(path)-1] == '/' && path != "/" {
@@ -124,7 +125,7 @@ func (d *Directory) openFile(path string, errorIfNotExist bool) (*os.File, error
 
 	file, ok := currentDir.files[paths[len(paths)-1]]
 	if errorIfNotExist && (!ok || file == nil) {
-		return nil, vanerrors.NewSimple(FileDoesNotExists, paths[len(paths)-1])
+		return nil, vanerrors.New(FileDoesNotExists, paths[len(paths)-1])
 	} else if !ok || file == nil {
 		err := currentDir.AddFile(paths[len(paths)-1])
 		if err != nil {

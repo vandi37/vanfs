@@ -47,7 +47,7 @@ func (c *Console) Run(cancel context.CancelFunc) {
 			return
 		default:
 			if command != "" {
-				err = vanerrors.NewSimple("command not exist", command)
+				err = vanerrors.Simple("command not exist")
 			}
 		}
 		if err != nil {

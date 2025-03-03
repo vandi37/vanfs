@@ -3,10 +3,12 @@ package app
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/vandi37/vanfs/internal/console"
+	"github.com/vandi37/vanfs/internal/load"
 	"github.com/vandi37/vanfs/internal/path"
 	"github.com/vandi37/vanfs/pkg/choose"
 	"github.com/vandi37/vanfs/pkg/cleaner"
@@ -14,13 +16,24 @@ import (
 	"github.com/vandi37/vanfs/pkg/init_system"
 )
 
-func Run(ctx context.Context) {
 
-	variant, err := choose.Choose()
+
+func Run(ctx context.Context) {
+	variant, ok, err := load.Load()
 	if err != nil {
-		fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+		fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+	}
+	if ok {
 		return
 	}
+	if variant < 0 {
+		variant, err = choose.Choose()
+		if err != nil {
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			return
+		}
+	}
+	
 	var fs = new(filesystem.Filesystem)
 
 	switch variant {
@@ -28,13 +41,13 @@ func Run(ctx context.Context) {
 		path, err := path.LoadPath()
 
 		if err != nil {
-			fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
 			return
 		}
 		fs, err = filesystem.New(path)
 
 		if err != nil {
-			fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
 			return
 		}
 	case 1:
@@ -51,13 +64,13 @@ func Run(ctx context.Context) {
 		fs, err = filesystem.New(path)
 
 		if err != nil {
-			fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
 			return
 		}
 	case 2:
 		fs, err = init_system.Init()
 		if err != nil {
-			fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
 			return
 		}
 	default:

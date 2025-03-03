@@ -7,6 +7,22 @@ import (
 	"github.com/vandi37/vanfs/pkg/ide"
 )
 
+func (c *Console) Help(s string) error {
+	fmt.Println(`cd {path}: Change directory
+tree {path}: View tree,
+ls {path}: View list of files and directories,
+mkdir {path}: Make directory,
+rmdir {path}: Remove directory,
+mkf {path}: Make file,
+rm {path}: Remove file,
+of {path}: Open file,
+path: Current path,
+clear: Clear console,
+cat {path}: View file value,
+help: Help`)
+	return nil
+}
+
 func (c *Console) Tree(s string) error {
 	res, err := c.fs.Tree(s)
 	if err != nil {

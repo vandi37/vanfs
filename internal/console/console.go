@@ -3,6 +3,7 @@ package console
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -51,15 +52,15 @@ func (c *Console) Run(cancel context.CancelFunc) {
 			}
 		}
 		if err != nil {
-			fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
 		}
 		err = c.fs.Save()
 		if err != nil {
-			fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
 		}
 		err = c.fs.Reload()
 		if err != nil {
-			fmt.Print("\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
+			fmt.Fprint(os.Stderr, "\033[48;2;120;24;0;38;2;255;221;212m", err, "\033[0m\n")
 		}
 		time.Sleep(time.Millisecond * 5)
 	}

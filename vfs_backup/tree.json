@@ -4,7 +4,9 @@
     "dirs": {
       "home": {
         "dirs": {},
-        "files": {}
+        "files": {
+          "test.test": "9846e8ee-f395-4ee0-938c-5e5a03b96827_2025.03.03_22.43.40_test.test.vfs"
+        }
       }
     },
     "files": {}
